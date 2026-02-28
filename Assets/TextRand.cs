@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class KeyRandomizer : MonoBehaviour
 {
     public TextMeshProUGUI textDisplay;
@@ -65,6 +65,7 @@ public class KeyRandomizer : MonoBehaviour
         }
         timerDisplay.text = "";
         textDisplay.text = "Bye!";
+         SceneManager.LoadScene("End");
         gameOver = true;
     }
 }

@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RandomSpawner : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class RandomSpawner : MonoBehaviour
     public float minY = -5f, maxY = 5f;
     public float spawnInterval = 2f;
     public int maxChildren;
+    public AudioSource CLICKsOUND;
 
     void Start()
     {
@@ -23,26 +25,35 @@ public class RandomSpawner : MonoBehaviour
     {
         randomNumber = Random.Range(0, 10);
         Debug.Log(randomNumber);
+
         if (randomNumber <= 6)
         {
-        Vector2 randomPos = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
-        Instantiate(press, randomPos, Quaternion.identity, spawnContainer);
+            Vector2 randomPos = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+            Instantiate(press, randomPos, Quaternion.identity, spawnContainer);
         }
 
         if (randomNumber >= 7)
         {
-        Vector2 randomPos = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
-        Instantiate(bomb, randomPos, Quaternion.identity, bombContainer);
-
+            Vector2 randomPos = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+            Instantiate(bomb, randomPos, Quaternion.identity, bombContainer);
         }
 
-        if (spawnContainer.childCount >= maxChildren)  
+        if (spawnContainer.childCount >= maxChildren)
         {
-            Destroy(bomb);
-            Destroy(press);
             Debug.Log("Limit reached!");
-             CancelInvoke("Spawn");
-
+            CancelInvoke("Spawn");
+             SceneManager.LoadScene("End");
+        }
     }
+
+    public void ClearAll()
+    {
+        CancelInvoke("Spawn");
+
+        foreach (Transform child in spawnContainer)
+            Destroy(child.gameObject);
+
+        foreach (Transform child in bombContainer)
+            Destroy(child.gameObject);
     }
 }

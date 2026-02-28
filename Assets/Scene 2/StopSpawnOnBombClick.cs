@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StopSpawnOnBombClick : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class StopSpawnOnBombClick : MonoBehaviour
         {
             // Stops the InvokeRepeating in the spawner
             spawnerScript.CancelInvoke("Spawn");
+            SceneManager.LoadScene("End");
             Debug.Log("Spawning stopped, but object still exists.");
         }
     }
